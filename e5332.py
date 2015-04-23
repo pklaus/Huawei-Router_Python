@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-import requests
-import xml.dom.minidom, urllib.parse, sys, pprint
+import xml.dom.minidom, urllib.request, urllib.parse, sys, pprint
 
 class HuaweiE5332(object):
 
@@ -47,12 +46,15 @@ class HuaweiE5332(object):
     def _api_by_name(self, name):
         return [api for api in self.XML_APIS if api['name'] == name][0]
 
+    def _get(self, url):
+        with urllib.request.urlopen(url) as response:
+           return response.read()
+
     def wlan_host_list(self):
         host_list = []
         api = self._api_by_name('wlan_host_list')
         url = urllib.parse.urljoin(self.base_url, api['url'])
-        r = requests.get(url)
-        dom = xml.dom.minidom.parseString(r.text)
+        dom = xml.dom.minidom.parseString(self._get(url))
         assert dom.getElementsByTagName("response")[0]
         hosts = dom.getElementsByTagName("Hosts")[0]
         for host in hosts.childNodes:
@@ -70,8 +72,7 @@ class HuaweiE5332(object):
         tree_apis = [api for api in self.XML_APIS if api['kind'] == 'tree']
         for api in tree_apis:
             url = urllib.parse.urljoin(self.base_url, api['url'])
-            r = requests.get(url)
-            dom = xml.dom.minidom.parseString(r.text)
+            dom = xml.dom.minidom.parseString(self._get(url))
             response = dom.getElementsByTagName("response")[0]
             properties.append((api['name'], HuaweiE5332.recursive_checknodes(response)))
         return properties
@@ -108,8 +109,7 @@ class HuaweiE5332(object):
         flat_apis = [api for api in self.XML_APIS if api['kind'] == 'flat']
         for api in flat_apis:
             url = urllib.parse.urljoin(self.base_url, api['url'])
-            r = requests.get(url)
-            dom = xml.dom.minidom.parseString(r.text)
+            dom = xml.dom.minidom.parseString(self._get(url))
             try:
                 response = dom.getElementsByTagName("response")[0]
             except IndexError:
