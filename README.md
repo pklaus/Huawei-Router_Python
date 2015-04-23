@@ -38,9 +38,13 @@ when fetching the device's status information:
     monitoring_status_CurrentNetworkType: 9
     monitoring_status_CurrentServiceDomain: 3
     monitoring_status_BatteryStatus: 0
-    [       ...       ]
+    [        .        ]
+    [        .        ]
+    [        .        ]
     [ many more lines ]
-    [       ...       ]
+    [        .        ]
+    [        .        ]
+    [        .        ]
     pin_simlock_pSimLockRemainTimes: None
     wlan_host_list_1_ID: 1
     wlan_host_list_1_AssociatedTime: 1354
