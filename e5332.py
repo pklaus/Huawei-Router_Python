@@ -12,12 +12,13 @@ class HuaweiE5332(object):
       {'name': 'global_module_switch',          'kind': 'flat',  'url': '/api/global/module-switch'},
       {'name': 'monitoring_status',             'kind': 'flat',  'url': '/api/monitoring/status'},
       {'name': 'monitoring_converged_status',   'kind': 'flat',  'url': '/api/monitoring/converged-status'},
+      {'name': 'monitoring_traffic_statistics', 'kind': 'flat',  'url': '/api/monitoring/traffic-statistics'},
+      {'name': 'monitoring_check_notifications','kind': 'flat',  'url': '/api/monitoring/check-notifications'},
       {'name': 'dialup_connection',             'kind': 'flat',  'url': '/api/dialup/connection'},
       {'name': 'dialup_profiles',               'kind': 'tree',  'url': '/api/dialup/profiles'},
       {'name': 'net_register',                  'kind': 'flat',  'url': '/api/net/register'},
       {'name': 'net_network',                   'kind': 'flat',  'url': '/api/net/network'},
-      {'name': 'monitoring_basic_settings',     'kind': 'flat',  'url': '/api/monitoring/traffic-statistics'},
-      {'name': 'monitoring_check_notifications','kind': 'flat',  'url': '/api/monitoring/check-notifications'},
+      {'name': 'sms_config',                    'kind': 'flat',  'url': '/api/sms/config'},
       {'name': 'wlan_basic_settings',           'kind': 'flat',  'url': '/api/wlan/basic-settings'},
       {'name': 'wlan_security_settings',        'kind': 'flat',  'url': '/api/wlan/security-settings'},
       {'name': 'wlan_host_list',                'kind': 'tree',  'url': '/api/wlan/host-list'}, # connected wireless clients
@@ -35,6 +36,7 @@ class HuaweiE5332(object):
       {'name': 'user_state_login',              'kind': 'flat',  'url': '/api/user/state-login'},
       {'name': 'config_global',                 'kind': 'config','url': '/config/global/config.xml'},
       {'name': 'config_sms',                    'kind': 'config','url': '/config/sms/config.xml'},
+      {'name': 'config_dialup_connectmode',     'kind': 'config','url': '/config/dialup/connectmode.xml'},
       {'name': 'config_wifi_countryChannel',    'kind': 'config','url': '/config/wifi/countryChannel.xml'},
     ]
 
