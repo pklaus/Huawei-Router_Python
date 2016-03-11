@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 
-import xml.dom.minidom, urllib.request, urllib.parse, sys, pprint
+import xml.dom.minidom, urllib.request, urllib.parse, http.cookiejar, sys, pprint
 
 class HuaweiE5332(object):
 
+    HOME_URL = 'http://{host}'
     BASE_URL = 'http://{host}/api/'
 
     XML_APIS = [
@@ -41,14 +42,19 @@ class HuaweiE5332(object):
 
     def __init__(self, host='192.168.1.1'):
         self.host = host
+        self.home_url = self.HOME_URL.format(host=host)
+        cj = http.cookiejar.CookieJar()
+        self.opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
+        self.opener.open(self.home_url)
         self.base_url = self.BASE_URL.format(host=host)
 
     def _api_by_name(self, name):
         return [api for api in self.XML_APIS if api['name'] == name][0]
 
     def _get(self, url):
-        with urllib.request.urlopen(url) as response:
-           return response.read()
+        with self.opener.open(url) as response:
+           rtext = response.read()
+           return rtext
 
     def wlan_host_list(self):
         host_list = []
