@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-import xml.dom.minidom, urllib.request, urllib.parse, http.cookiejar, pprint, logging
+import xml.dom.minidom, urllib.request, urllib.parse, http.cookiejar, pprint, logging, json
+from datetime import datetime as dt
 
 logger = logging.getLogger(__name__)
 
@@ -162,6 +163,7 @@ def main():
     parser = argparse.ArgumentParser(description='Fetch all kinds of status information from the Huawei E5332 UMTS Hotspot.')
     parser.add_argument('host', nargs='?', default='192.168.1.1', help='The hostname / IP address your E5332 is reachable at')
     parser.add_argument('--tree', action='store_true', help='Read tree-style APIs')
+    parser.add_argument('--format', choices=('json','text'), help='Output format', default='text')
     def flavours(): return set([api['flavour'] for api in HuaweiE5332.XML_APIS])
     parser.add_argument('--flavour', choices=flavours(), help='Device flavour to use')
 
@@ -173,10 +175,14 @@ def main():
         for prop, val in e5332.tree_properties():
             print("\n--------------\n{}:\n".format(prop))
             pprint.pprint(val)
-    if not args.tree:
+    else:
         fp = e5332.flat_properties()
-        for prop, val in fp:
-            print("{}: {}".format(prop, val))
+        if args.format == 'text':
+            for prop, val in fp:
+                print("{}: {}".format(prop, val))
+        elif args.format == 'json':
+            fp = dict(fp)
+            print(json.dumps({'data': fp, 'timestamp': dt.now().isoformat()}))
 
 if __name__ == "__main__":
     main()
